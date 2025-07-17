@@ -1,0 +1,10 @@
+<div class="modal-overlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <h3>{{ title }}</h3>
+    <p>{{ message }}</p>
+    <div class="modal-actions">
+      <button class="btn-secondary" (click)="cancel.emit()">{{ cancelText }}</button>
+      <button class="btn-danger" (click)="confirm.emit()">{{ confirmText }}</button>
+    </div>
+  </div>
+</div>

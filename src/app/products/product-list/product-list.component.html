@@ -1,0 +1,93 @@
+<div class="product-list-container">
+  <div class="header">
+    <h1 class="title">Productos Test</h1>
+  </div>
+
+  <div class="search-and-add-container">
+    <div class="search-container">
+      <input 
+        type="text" 
+        class="search-input" 
+        (input)="filterProducts()" 
+        [(ngModel)]="searchTerm"
+        placeholder="Buscar productos..."
+      >
+    </div>
+
+    <button class="add-button" (click)="onAddProduct({}, true)">
+      <span class="button-icon">+</span> Agregar
+    </button>
+  </div>
+  
+  <div class="loading-spinner" *ngIf="isLoading">
+    <div class="spinner"></div>
+  </div>
+
+  <div class="product-table" >
+    <div class="table-header">
+      <div class="header-cell">Logo</div>
+      <div class="header-cell">Nombre</div>
+      <div class="header-cell">Descripción</div>
+      <div class="header-cell">Fecha Liberación</div>
+      <div class="header-cell">Fecha Revisión</div>
+      <div class="header-cell">Acciones</div>
+    </div>
+
+    <div class="table-body">
+      <div class="table-row" *ngFor="let product of paginatedProducts">
+        <div class="table-cell logo-cell">
+          <img [src]="product.logo" alt="Logo" class="product-logo" *ngIf="product.logo">
+        </div>
+        <div class="table-cell">{{ product.name }}</div>
+        <div class="table-cell description-cell">{{ product.description }}</div>
+        <div class="table-cell">{{ product.date_release | date:'dd/MM/yyyy' }}</div>
+        <div class="table-cell">{{ product.date_revision | date:'dd/MM/yyyy' }}</div>
+        <div class="table-cell actions-cell">
+          <button class="action-button edit" (click)="onAddProduct(product,false)">Editar</button>
+          <button class="action-button delete" (click)="onDeleteProduct(product?.id)">Eliminar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="results-info">
+    <span class="results-count">{{ totalItems }} resultados</span>
+    <select class="page-size-select" [(ngModel)]="itemsPerPage" (change)="currentPage = 1">
+      <option [ngValue]="5">5 por página</option>
+      <option [ngValue]="10">10 por página</option>
+      <option [ngValue]="20">20 por página</option>
+    </select>
+  </div>
+  <div class="pagination" *ngIf="totalItems > itemsPerPage && !isLoading ">
+    <button 
+      class="pagination-button" 
+      (click)="currentPage = currentPage - 1" 
+      [disabled]="currentPage === 1"
+    >
+      Anterior
+    </button>
+
+    <button 
+      class="pagination-button" 
+      (click)="currentPage = currentPage + 1" 
+      [disabled]="currentPage * itemsPerPage >= totalItems"
+    >
+      Siguiente
+    </button>
+  </div>
+
+  <app-confirm-modal 
+    *ngIf="showDeleteModal"
+    [title]="'Eliminar Producto'"
+    [message]="`¿Estás seguro de eliminar el producto ${productToDelete?.name || ''}?`"
+    [confirmText]="'Eliminar'"
+    (confirm)="deleteProduct()"
+    (cancel)="cancelDelete()"
+  ></app-confirm-modal>
+  
+</div>
+
+
+
+
+

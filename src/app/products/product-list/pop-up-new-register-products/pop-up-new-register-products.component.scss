@@ -1,0 +1,23 @@
+.product-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px 0;
+
+  mat-form-field {
+    width: 100%;
+  }
+  
+  input[type="date"] {
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: inherit;
+  }
+  
+  .mat-form-field-disabled {
+    opacity: 0.8;
+    background-color: #f5f5f5;
+  }
+}
